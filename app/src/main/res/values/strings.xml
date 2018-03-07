@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">FortrainerAdminApp</string>
+    <string name="collapsibleAppBarBehaviour">@string/appbar_scrolling_view_behavior</string>
+</resources>
