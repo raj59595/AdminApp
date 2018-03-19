@@ -18,6 +18,9 @@ public class Event {
     @SerializedName("start_datetime")
     @Expose
     private String startDatetime;
+    @SerializedName("end_datetime")
+    @Expose
+    private String endDatetime;
     @SerializedName("is_full")
     @Expose
     private Boolean isFull;
@@ -33,6 +36,11 @@ public class Event {
     @SerializedName("address_line_3")
     @Expose
     private String addressLine3;
+
+    @SerializedName("price")
+    @Expose
+    private String price;
+
 
     public Integer getId() {
         return id;
@@ -106,4 +114,19 @@ public class Event {
         this.addressLine3 = addressLine3;
     }
 
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getEndDatetime() {
+        return endDatetime;
+    }
+
+    public void setEndDatetime(String endDatetime) {
+        this.endDatetime = endDatetime;
+    }
 }

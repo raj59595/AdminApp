@@ -27,7 +27,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     {
         this.recyclerItem = recyclerItems;
         inflater = LayoutInflater.from(context);
-
+        this.context = context;
     }
 
     @Override
