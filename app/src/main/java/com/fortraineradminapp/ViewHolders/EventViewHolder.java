@@ -21,7 +21,9 @@ public class EventViewHolder extends RecyclerView.ViewHolder{
     TextView name;
     TextView venue;
     TextView amt;
-    TextView time;
+    TextView sttime;
+    TextView edtime;
+
     LinearLayout llEventHolder;
 
     public EventViewHolder(View itemView)
@@ -36,21 +38,23 @@ public class EventViewHolder extends RecyclerView.ViewHolder{
         name =(TextView)rootView.findViewById(R.id.name);
         venue = (TextView)rootView.findViewById(R.id.venue);
         amt =(TextView)rootView.findViewById(R.id.amt);
-        time = (TextView)rootView.findViewById(R.id.time);
+        sttime = (TextView)rootView.findViewById(R.id.starttime);
+        edtime = (TextView)rootView.findViewById(R.id.endtime);
         llEventHolder = (LinearLayout) rootView.findViewById(R.id.ll_event_holder);
 
     }
     public void bindData(final Context context, final Event event){
 
-        id.setText(String.valueOf(event.getId()));
+//       id.setText(String.valueOf(event.getId()));
         name.setText(event.getName());
         venue.setText(event.getAddressLine1());
         if(event.getIsPaid()){
-            amt.setText("true");
+            amt.setText(event.getPrice());
         }else{
-            amt.setText("false");
+            amt.setText(event.getPrice());
         }
-        time.setText(event.getStartDatetime());
+        sttime.setText(event.getStartDatetime());
+        edtime.setText(event.getEndDatetime());
         llEventHolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

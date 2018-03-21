@@ -1,5 +1,6 @@
 package com.fortraineradminapp.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,12 +12,20 @@ import android.widget.Toast;
 
 import com.fortraineradminapp.Models.Event;
 import com.fortraineradminapp.R;
+import com.fortraineradminapp.Utilities.RetrofitHelper;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EventEditActivity extends AppCompatActivity {
 
     Event event;
-    /** Android Views **/
+    /**
+     * Android Views
+     **/
     EditText etName;
     EditText etVenue;
     Button btCalendar;
@@ -26,7 +35,23 @@ public class EventEditActivity extends AppCompatActivity {
     EditText stTime;
     EditText edTime;
     EditText etPrice;
-    /** Android Views **/
+    Button submit;
+
+    /**
+     * Android Views
+     **/
+
+
+    public void init() {
+
+        submit = (Button) findViewById(R.id.submit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateEventList();
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +63,8 @@ public class EventEditActivity extends AppCompatActivity {
 
         setEventValues();
 
+        init();
+
 
         btCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +74,7 @@ public class EventEditActivity extends AppCompatActivity {
                 calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
                     public void onSelectedDayChange(CalendarView CalendarView, int year, int month, int dayOfMonth) {
-                        String date = year + "/" + month+1 + "/" + dayOfMonth;
+                        String date = year + "/" + month + 1 + "/" + dayOfMonth;
                         Log.d("EVENT_EDIT", "onSelectedDayChange: yyyy/mm/dd:" + date);
                         stTime.setText(date);
                     }
@@ -74,12 +101,37 @@ public class EventEditActivity extends AppCompatActivity {
     }
 
 
+    private void updateEventList() {
+        Call<JsonObject> eventListCall = RetrofitHelper.getRetrofitService().updateEventDetails(event.getId(),etName.getText().toString(), etVenue.getText().toString(), stTime.getText().toString(), edTime.getText().toString(),etPrice.getText().toString());
+        eventListCall.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                if (response.isSuccessful()) {
+                    Toast.makeText(EventEditActivity.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
+                    launchEventListActivity();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(EventEditActivity.this, "failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void launchEventListActivity(){
+        Intent intent = new Intent(EventEditActivity.this, EventlistActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     private void readIntent() {
 
         if (getIntent().getStringExtra("EVENT_DETAILS") == null) {
             Toast.makeText(this, "cant get event", Toast.LENGTH_SHORT).show();
             finish();
-        }else{
+        } else {
             event = new Gson().fromJson(getIntent().getStringExtra("EVENT_DETAILS"), Event.class);
         }
     }
@@ -88,9 +140,9 @@ public class EventEditActivity extends AppCompatActivity {
 
         etName.setText(event.getName());
         etVenue.setText(event.getAddressLine1());
-        if(event.getIsPaid()){
+        if (event.getIsPaid()) {
             etPrice.setText(event.getPrice());
-        }else{
+        } else {
             etPrice.setText(event.getPrice());
         }
         stTime.setText(event.getStartDatetime());
@@ -99,21 +151,20 @@ public class EventEditActivity extends AppCompatActivity {
 
 
     /**
- * Binds XML views
- * Call this function after setContentView() in onCreate().
- **/private void bindViews(){
-    etName = (EditText) findViewById(R.id.et_name);
-    etVenue = (EditText) findViewById(R.id.et_venue);
-    btCalendar = (Button) findViewById(R.id.bt_calendar);
-    calendar = (CalendarView) findViewById(R.id.calendar);
-    btCalendar1 = (Button) findViewById(R.id.bt_calendar1);
-    calendar1 = (CalendarView) findViewById(R.id.calendar1);
-    stTime = (EditText) findViewById(R.id.et_sttime);
-    edTime = (EditText) findViewById(R.id.et_edtime);
-    etPrice = (EditText) findViewById(R.id.et_price);
-}
-
-
+     * Binds XML views
+     * Call this function after setContentView() in onCreate().
+     **/
+    private void bindViews() {
+        etName = (EditText) findViewById(R.id.et_name);
+        etVenue = (EditText) findViewById(R.id.et_venue);
+        btCalendar = (Button) findViewById(R.id.bt_calendar);
+        calendar = (CalendarView) findViewById(R.id.calendar);
+        btCalendar1 = (Button) findViewById(R.id.bt_calendar1);
+        calendar1 = (CalendarView) findViewById(R.id.calendar1);
+        stTime = (EditText) findViewById(R.id.et_sttime);
+        edTime = (EditText) findViewById(R.id.et_edtime);
+        etPrice = (EditText) findViewById(R.id.et_price);
+    }
 
 
 }

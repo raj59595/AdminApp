@@ -11,7 +11,13 @@ import android.widget.Toast;
 
 import com.fortraineradminapp.Models.Event;
 import com.fortraineradminapp.R;
+import com.fortraineradminapp.Utilities.RetrofitHelper;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by specter on 3/14/18.
@@ -28,8 +34,9 @@ public class EventDetailsActivity extends AppCompatActivity {
     TextView time;
 
     public Button btEdit;
+    public Button btremove;
 
-    public void init(){
+    public void editButtonClick(){
 
         btEdit= (Button)findViewById(R.id.bt_edit);
 
@@ -45,6 +52,36 @@ public class EventDetailsActivity extends AppCompatActivity {
         });
     }
 
+    public void removeButtonClick(){
+
+        btremove= (Button)findViewById(R.id.bt_remove);
+
+        btremove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Call<JsonObject> removeEventCall = RetrofitHelper.getRetrofitService().deleteEvent(event.getId());
+                removeEventCall.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                        if (response.isSuccessful()) {
+                            Toast.makeText(EventDetailsActivity.this, "Event Deleted Successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Toast.makeText(EventDetailsActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                Intent intent =  new Intent(EventDetailsActivity.this,EventlistActivity.class);
+                intent.putExtra("EVENT_DETAILS", new Gson().toJson(event, Event.class));
+                startActivity(intent);
+
+            }
+        });
+    }
     public static void onEventClicked(Context context, Event event){
         Intent intent = new Intent(context, EventDetailsActivity.class);
         intent.putExtra("EVENT_DETAILS", new Gson().toJson(event, Event.class));
@@ -66,7 +103,8 @@ public class EventDetailsActivity extends AppCompatActivity {
         readIntent();
         setContentView(R.layout.activity_event_details);
         bindViews();
-        init();
+        editButtonClick();
+        removeButtonClick();
 
         if(event != null) {
             setEventDetails();
