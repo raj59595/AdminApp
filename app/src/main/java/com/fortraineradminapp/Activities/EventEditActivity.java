@@ -139,7 +139,7 @@ public class EventEditActivity extends AppCompatActivity {
     private void setEventValues() {
 
         etName.setText(event.getName());
-        etVenue.setText(event.getAddressLine1());
+        etVenue.setText(event.getAddress().getAddressLine1());
         if (event.getIsPaid()) {
             etPrice.setText(event.getPrice());
         } else {

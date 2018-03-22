@@ -31,7 +31,9 @@ public class EventDetailsActivity extends AppCompatActivity {
     TextView name;
     TextView venue;
     TextView amt;
-    TextView time;
+    TextView starttime;
+    TextView endtime;
+
 
     public Button btEdit;
     public Button btremove;
@@ -94,7 +96,9 @@ public class EventDetailsActivity extends AppCompatActivity {
         name =(TextView)findViewById(R.id.name);
         venue = (TextView)findViewById(R.id.venue);
         amt =(TextView)findViewById(R.id.amt);
-        time = (TextView)findViewById(R.id.time);
+        starttime = (TextView)findViewById(R.id.starttime);
+        endtime = (TextView)findViewById(R.id.endtime);
+
     }
 
     @Override
@@ -118,13 +122,14 @@ public class EventDetailsActivity extends AppCompatActivity {
     private void setEventDetails(){
         id.setText(String.valueOf(event.getId()));
         name.setText(event.getName());
-        venue.setText(event.getAddressLine1());
+        venue.setText(event.getAddress().getAddressLine1());
         if(event.getIsPaid()){
             amt.setText(event.getPrice());
         }else{
             amt.setText(event.getPrice());
         }
-        time.setText(event.getStartDatetime());
+        starttime.setText(event.getStartDatetime());
+        endtime.setText(event.getEndDatetime());
     }
 
     private void readIntent(){

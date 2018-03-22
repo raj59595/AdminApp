@@ -47,7 +47,7 @@ public class EventViewHolder extends RecyclerView.ViewHolder{
 
 //       id.setText(String.valueOf(event.getId()));
         name.setText(event.getName());
-        venue.setText(event.getAddressLine1());
+        venue.setText(event.getAddress().getAddressLine1());
         if(event.getIsPaid()){
             amt.setText(event.getPrice());
         }else{

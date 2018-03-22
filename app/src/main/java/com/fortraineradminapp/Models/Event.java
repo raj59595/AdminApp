@@ -27,19 +27,16 @@ public class Event {
     @SerializedName("is_paid")
     @Expose
     private Boolean isPaid;
-    @SerializedName("address_line_1")
-    @Expose
-    private String addressLine1;
-    @SerializedName("address_line_2")
-    @Expose
-    private String addressLine2;
-    @SerializedName("address_line_3")
-    @Expose
-    private String addressLine3;
 
+    @SerializedName("address")
+    @Expose
+    private Address address;
     @SerializedName("price")
     @Expose
     private String price;
+
+
+
 
 
     public Integer getId() {
@@ -90,29 +87,6 @@ public class Event {
         this.isPaid = isPaid;
     }
 
-    public String getAddressLine1() {
-        return addressLine1;
-    }
-
-    public void setAddressLine1(String addressLine1) {
-        this.addressLine1 = addressLine1;
-    }
-
-    public String getAddressLine2() {
-        return addressLine2;
-    }
-
-    public void setAddressLine2(String addressLine2) {
-        this.addressLine2 = addressLine2;
-    }
-
-    public String getAddressLine3() {
-        return addressLine3;
-    }
-
-    public void setAddressLine3(String addressLine3) {
-        this.addressLine3 = addressLine3;
-    }
 
     public String getPrice() {
         return price;
@@ -128,5 +102,13 @@ public class Event {
 
     public void setEndDatetime(String endDatetime) {
         this.endDatetime = endDatetime;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

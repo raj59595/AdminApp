@@ -26,7 +26,7 @@ public interface RetrofitService {
     Call<JsonObject> deleteEvent(@Path("id") int eventId);
 
     @FormUrlEncoded
-    @PUT("app-events/{id}/update-app-event.json")
-    Call<JsonObject> updateEventDetails(@Path("id") int eventId, @Field("event_name") String event_name,@Field("event_venue") String event_venue,@Field("event_stdate") String event_stdate,@Field("event_eddate") String event_eddate,@Field("event_price") String event_price);
+    @PUT("app-events/{event_id}/update-app-event.json")
+    Call<JsonObject> updateEventDetails(@Path("event_id") int eventId, @Field("name") String event_name,@Field("venue") String event_venue,@Field("start_datetime") String event_stdate,@Field("end_datetime") String event_eddate,@Field("price") String event_price);
 
 }
